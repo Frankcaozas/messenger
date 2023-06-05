@@ -1,5 +1,7 @@
 import { Nunito } from "next/font/google"
 import './globals.css'
+import { Toaster } from "react-hot-toast"
+import AuthContext from "./context/AuthContext"
 const font = Nunito({ subsets: ['latin'] })
 
 export const metadata = {
@@ -16,8 +18,11 @@ export default function RootLayout({
     <html lang="en">
 
       <body className={font.className}>
-        
-        {children}</body>
+        <AuthContext>
+          <Toaster />
+          {children}
+        </AuthContext>
+      </body>
     </html>
   )
 }

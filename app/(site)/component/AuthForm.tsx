@@ -2,15 +2,24 @@
 
 import Button from '@/app/components/Button';
 import Input from '@/app/components/input/Input';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FieldValue, FieldValues, SubmitHandler, set, useForm } from 'react-hook-form';
 import AuthSocialButton from './AuthSocialButton';
-import {BsGithub, BsGoogle} from 'react-icons/bs'
-
+import { BsGithub, BsGoogle } from 'react-icons/bs'
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { signIn, useSession } from 'next-auth/react'
 type Variant = 'LOGIN' | 'REGISTER'
 const AuthForm = () => {
+  const session = useSession()
   const [variant, setVariant] = useState<Variant>('LOGIN')
   const [isLoaing, setIsLoading] = useState(false)
+
+  useEffect(()=>{
+    if(session.status === 'authenticated'){
+      console.log(session)
+    }
+  }, [session.status])
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -19,9 +28,10 @@ const AuthForm = () => {
       setVariant('LOGIN')
     }
   }, [variant])
+
   const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
     defaultValues: {
-      emial: '',
+      email: '',
       name: '',
       password: ''
     }
@@ -29,13 +39,39 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true)
     if (variant === 'LOGIN') {
+      signIn('credentials', { ...data, redirect: false })
+        .then((callback) => {
+
+          if (callback?.error) {
+
+            toast.error('密码或邮箱有误')
+          }
+          if (callback?.ok && !callback.error)
+            toast.success('登陆成功')
+        })
+        .finally(() => setIsLoading(false))
 
     } else if (variant === 'REGISTER') {
-
+      axios
+        .post('api/register', data)
+        .then(() => toast.success('注册成功'))
+        .catch(() => toast.error('请输入完整信息'))
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
   }
   const socialAction = (action: string) => {
     setIsLoading(true)
+    signIn(action, { redirect: false })
+      .then(callback => {
+        if (callback?.error) {
+          toast.error('登录失败')
+        }
+        if (callback?.ok && !callback.error)
+          toast.success('登陆成功')
+      })
+      .finally(() => setIsLoading(false))
   }
   return (
     <div
@@ -114,11 +150,11 @@ const AuthForm = () => {
         <div className='flex gap-2 mt-6'>
           <AuthSocialButton
             icon={BsGithub}
-            onClick={()=>socialAction('github')}
+            onClick={() => socialAction('github')}
           />
           <AuthSocialButton
             icon={BsGoogle}
-            onClick={()=>socialAction('google')}
+            onClick={() => socialAction('google')}
           />
         </div>
 
@@ -138,7 +174,7 @@ const AuthForm = () => {
             onClick={toggleVariant}
             className='underline cursor-pointer'
           >
-            {variant === 'LOGIN' ? '注册' : '登录' }
+            {variant === 'LOGIN' ? '注册' : '登录'}
           </div>
         </div>
 
