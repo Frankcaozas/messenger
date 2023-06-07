@@ -1,8 +1,7 @@
-import { Nunito } from "next/font/google"
-import './globals.css'
 import { Toaster } from "react-hot-toast"
 import AuthContext from "./context/AuthContext"
-const font = Nunito({ subsets: ['latin'] })
+import './globals.css'
+
 
 export const metadata = {
   title: 'Messenger',
@@ -17,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
 
-      <body className={font.className}>
+      <body >
         <AuthContext>
           <Toaster />
           {children}

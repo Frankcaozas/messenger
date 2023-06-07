@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
+import Sidebar from '../components/Sidebar/Sidebar';
 
 const UsersLayout = async ({
   children
@@ -6,9 +7,12 @@ const UsersLayout = async ({
   children: ReactNode
 }) => {
   return (
-    <div>
-      {children}
-    </div>
+    //@ts-expect-error Server Component
+    <Sidebar>
+      <div className='h-full'>
+        {children}
+      </div>
+    </Sidebar>
   );
 };
 
