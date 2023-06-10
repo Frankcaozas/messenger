@@ -1,10 +1,12 @@
-import { ReactNode } from "react";
+import type { ReactNode } from 'react'
+import DektopSidebar from './DektopSidebar'
 
-async function Sidebar({children}:
-  {children: ReactNode}
-  ) {
+async function Sidebar({ children }:
+{ children: ReactNode },
+) {
   return (
-    <div>
+    <div className="h-full">
+      <DektopSidebar/>
       {children}
     </div>
   )

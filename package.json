@@ -33,6 +33,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.39.5",
     "@types/bcrypt": "^5.0.0",
     "prisma": "^4.15.0"
   }
