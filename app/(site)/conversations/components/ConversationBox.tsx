@@ -58,7 +58,7 @@ const ConversationBox = ({
       return lastMsg?.body
     }
 
-    return 'Started a conversation';
+    return 'Starte a conversation';
   }, [lastMsg]);
 
   return (

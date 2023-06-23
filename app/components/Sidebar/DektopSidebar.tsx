@@ -12,7 +12,7 @@ interface DektopSidebarProps {
 const DektopSidebar: React.FC<DektopSidebarProps> = ({ 
   currentUser 
 }) => {
-  console.log(currentUser)
+
   const routes = useRoutes()
   const [isOpen, setIsOpen] = useState(false)
   return (

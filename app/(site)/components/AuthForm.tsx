@@ -2,14 +2,14 @@
 
 import Button from '@/app/components/Button';
 import Input from '@/app/components/input/Input';
-import React, { useCallback, useEffect, useState } from 'react';
-import { FieldValue, FieldValues, SubmitHandler, set, useForm } from 'react-hook-form';
-import AuthSocialButton from './AuthSocialButton';
-import { BsGithub, BsGoogle } from 'react-icons/bs'
 import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { BsGithub, BsGoogle } from 'react-icons/bs';
+import AuthSocialButton from './AuthSocialButton';
 type Variant = 'LOGIN' | 'REGISTER'
 const AuthForm = () => {
   const session = useSession()
