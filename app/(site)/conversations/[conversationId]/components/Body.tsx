@@ -15,14 +15,14 @@ const Body = ({
   const {conversationId} = useConversation()
 
   useEffect(()=>{
-    axios.post(`api/messages/${conversationId}/seen`)
+    axios.post(`/api/conversations/${conversationId}/seen`)
   }, [conversationId])
 
   return (
     <div className='flex-1 overflow-y-auto'>
       {msgs.map((msg, idx) => (
          <MessageBox 
-          isLast={idx === msgs.length}
+          isLast={idx === msgs.length-1}
           key={msg.id}
           data={msg}
          />

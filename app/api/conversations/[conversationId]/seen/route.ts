@@ -2,7 +2,7 @@ import getCurrentUser from '@/app/actions/getCurrentUser'
 import prisma from '@/app/libs/prisma.db'
 import { NextResponse } from 'next/server'
 
-export default async function POST(
+export async function POST(
   request: Request,
   { params }: { params: { conversationId: string } }
 ) {
