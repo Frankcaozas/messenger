@@ -15,7 +15,7 @@ const MessageInput = ({
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
 }) => {
-  console.log(placeholder, id, type)
+  
   return (
     <div className="relative w-full">
       <input

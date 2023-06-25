@@ -7,6 +7,7 @@ import Body from './components/Body';
 import Form from './components/Form';
 
 const page = async ({params}: {params: {conversationId: string}}) => {
+  
   const conversation = await getConversationById(params.conversationId)
   const messages = await getMessages(params.conversationId)
 
@@ -21,11 +22,10 @@ const page = async ({params}: {params: {conversationId: string}}) => {
   }
 
   return (
-    
     <div className='h-full lg:pl-80'>
         <div className='h-full flex flex-col'>
           <Header conversation={conversation}/>
-          <Body/>
+          <Body initialMessages={messages}/>
           <Form/>
         </div>
       </div>
