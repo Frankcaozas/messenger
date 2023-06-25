@@ -45,6 +45,7 @@ export default async function POST(
         sender: true
       }
     })
+    return NextResponse.json(updatedMessage)
 
   } catch (e) {
     return new NextResponse('Internal Error', { status: 500 })

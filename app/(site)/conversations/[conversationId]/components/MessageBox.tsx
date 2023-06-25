@@ -64,6 +64,11 @@ const MessageBox = ({
             <div>{data.body}</div>
           )}
         </div>
+        {isLast && isOwn && seenList.length>0 && (
+          <div>
+            {`${seenList}已读`}
+          </div>
+        )}
       </div>
     </div>
   );
