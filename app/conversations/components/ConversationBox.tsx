@@ -4,7 +4,6 @@ import useOtherUser from '@/app/hooks/useOtherUser';
 import { FullConversation } from '@/app/types';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
@@ -22,7 +21,7 @@ const ConversationBox = ({
 
   const handleClick = useCallback(() => {
     router.push(`/conversations/${data.id}`)
-  }, [router, data.id])
+  }, [router, data])
 
   const userEmail = useMemo(() => session.data?.user?.email,
     [session.data?.user?.email])
