@@ -31,9 +31,7 @@ const MessageBox = ({
     isOwn ? 'bg-sky-500 text-white' : 'bg-gray-100',
     data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3'
   )
-  console.log(seenList.length > 0)
-  console.log(isLast)
-  console.log(isOwn)
+  
   return (
     <div className={container}>
       <div className={avatar} >
