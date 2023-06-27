@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const { members, name, userId, isGroup } = await request.json()
     const currentUser = await getCurrentUser()
     if (!currentUser?.id || !currentUser?.email) {
-      return new NextResponse('Unauthorized', { status: 400 })
+      return new NextResponse('Unauthorized', { status: 401 })
     }
 
     if (isGroup && (!members || members.length < 2 || !name)) {
