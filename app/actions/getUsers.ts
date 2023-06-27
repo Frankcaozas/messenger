@@ -5,7 +5,7 @@ const getUsers = async () => {
   const session = await getSession()
 
   try {
-    const users = prisma.user.findMany({
+    const users = await prisma.user.findMany({
       orderBy: {
         createdAt: 'desc',
       },

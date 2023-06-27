@@ -1,6 +1,6 @@
 import getCurrentUser from '@/app/actions/getCurrentUser'
 import { NextResponse } from 'next/server'
-
+import prisma from '@/app/libs/prisma.db'
 export async function POST(request: Request) {
   try {
     const curUser = await getCurrentUser()
@@ -8,7 +8,7 @@ export async function POST(request: Request) {
       return new NextResponse('Unauthorized', { status: 401 })
     const body = await request.json()
     const { conversationId, message, image } = body
-    const newMsg = await prisma?.message.create({
+    const newMsg = await prisma.message.create({
       data: {
         body: message,
         image: image,
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
         seen: true,
       },
     })
-    const updatedConversation = await prisma?.conversation.update({
+    const updatedConversation = await prisma.conversation.update({
       where: {
         id: conversationId,
       },

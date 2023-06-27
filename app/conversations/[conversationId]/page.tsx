@@ -10,7 +10,7 @@ const page = async ({params}: {params: {conversationId: string}}) => {
   
   const conversation = await getConversationById(params.conversationId)
   const messages = await getMessages(params.conversationId)
-
+  
   if(!conversation){
     return (
       <div className='h-full lg:pl-80'>

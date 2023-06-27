@@ -1,14 +1,14 @@
 import getCurrentUser from './getCurrentUser'
-
+import prisma from '../libs/prisma.db'
 export const getConversationById = async (id: string) => {
   try {
     const curUser = await getCurrentUser()
 
     if (!curUser?.email) return null
 
-    const conversation = prisma?.conversation.findUnique({
+    const conversation = await prisma.conversation.findUnique({
       where: {
-        id,
+        id: id
       },
       include: {
         users: true,

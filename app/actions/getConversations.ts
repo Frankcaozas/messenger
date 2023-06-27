@@ -7,7 +7,7 @@ export const getConversations = async () => {
   if (!curUser?.id) return []
 
   try {
-    const conversations = prisma.conversation.findMany({
+    const conversations = await prisma.conversation.findMany({
       orderBy: {
         lastMessageAt: 'desc',
       },

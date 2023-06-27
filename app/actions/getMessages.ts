@@ -2,7 +2,7 @@ import prisma from "../libs/prisma.db"
 
 export const getMessages = async (id: string) => {
   try {
-    const messages = prisma.message.findMany({
+    const messages = await prisma.message.findMany({
       where: {
         conversationId: id
       },

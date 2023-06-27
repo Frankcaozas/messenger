@@ -5,10 +5,10 @@ import { Dialog, Transition } from '@headlessui/react'
 import { IoClose, IoTrash } from 'react-icons/io5'
 import { Conversation, User } from '@prisma/client';
 import { format } from 'date-fns';
-
+import ConfirmModal from './ConfirmModal';
 import useOtherUser from '@/app/hooks/useOtherUser';
 // import useActiveList from '@/app/hooks/useActiveList';
-import Modal from '@/app/(site)/components/modals/Modal';
+import Modal from '@/app/components/modals/Modal';
 import Avatar from '@/app/components/Avartar';
 // import AvatarGroup from '@/app/components/AvatarGroup';
 
@@ -50,15 +50,16 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
   return (
     // <>
-    //   <ConfirmModal 
-    //     isOpen={confirmOpen} 
-    //     onClose={() => setConfirmOpen(false)}
-    //   />
+    
     <>
-      <Modal
+      {/* <Modal
         isOpen={confirmOpen}
         onClose={() => { setConfirmOpen(false) }}
-      >hello </Modal>
+      >hello </Modal> */}
+         <ConfirmModal 
+         isOpen={confirmOpen} 
+         onClose={() => setConfirmOpen(false)}
+       />
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={onClose}>
           <Transition.Child
@@ -111,7 +112,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                             {title}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {/* {statusText} */}
+                            {/* {Todo statusText} */}
                             statusText
                           </div>
                           <div className="flex gap-10 my-8">
