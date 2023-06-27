@@ -22,7 +22,7 @@ const ConversationBox = ({
 
   const handleClick = useCallback(() => {
     router.push(`/conversations/${data.id}`)
-  }, [router, id])
+  }, [router, data.id])
 
   const userEmail = useMemo(() => session.data?.user?.email,
     [session.data?.user?.email])

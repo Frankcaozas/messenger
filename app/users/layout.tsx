@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import getUsers from '../../actions/getUsers'
-import Sidebar from '../../components/Sidebar/Sidebar'
+import getUsers from '../actions/getUsers'
+import Sidebar from '../components/Sidebar/Sidebar'
 import UserList from './components/UserList'
 
 async function UsersLayout({
