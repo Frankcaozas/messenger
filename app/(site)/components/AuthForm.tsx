@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/app/components/Button';
-import Input from '@/app/components/input/Input';
+import Input from '@/app/components/inputs/Input';
 import axios from 'axios';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
