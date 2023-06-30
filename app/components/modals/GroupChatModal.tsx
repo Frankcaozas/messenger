@@ -61,7 +61,7 @@ const GroupChatModal = ({
             leading-7
             text-gray-900
           '>
-            👦 > 2
+            {'人数必须 > 2'}
             </p>
           </div>
 
