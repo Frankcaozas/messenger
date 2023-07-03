@@ -4,11 +4,11 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import Modal from './Modal';
 import { toast } from 'react-hot-toast';
+import Button from '../Button';
 import Input from '../inputs/Input';
 import Select from '../inputs/Select';
-import Button from '../Button';
+import Modal from './Modal';
 
 const GroupChatModal = ({
   isOpen,
@@ -45,7 +45,7 @@ const GroupChatModal = ({
       onClose()
     }).catch(() => {
       toast.error('创建失败')
-    })
+    }).finally(() => setIsLoading(false))
   }
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
@@ -61,7 +61,7 @@ const GroupChatModal = ({
             leading-7
             text-gray-900
           '>
-            {'人数必须 > 2'}
+              {'人数必须 > 2'}
             </p>
           </div>
 
@@ -93,7 +93,7 @@ const GroupChatModal = ({
             />
           </div>
         </div>
-        <div className='flex items-center justify-end gap-x-6'>
+        <div className='flex items-center justify-end gap-x-6 mt-6'>
           <Button
             disabled={isLoading}
             onClick={onClose}
