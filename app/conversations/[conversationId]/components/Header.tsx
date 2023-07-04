@@ -1,5 +1,6 @@
 'use client'
 import Avatar from '@/app/components/Avartar';
+import AvatarGroup from '@/app/components/GroupAvatar';
 import useOtherUser from '@/app/hooks/useOtherUser';
 import { Conversation, User } from '@prisma/client';
 import Link from 'next/link';
@@ -19,7 +20,7 @@ const Header = ({
       return `${conversation.users.length} 位成员`
     }
     return '在线'
-  }, [])
+  }, [conversation])
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
@@ -54,7 +55,10 @@ const Header = ({
           >
             <HiChevronLeft size={32} />
           </Link>
-          <Avatar user={otherUser} />
+          {
+            conversation.isGroup ? <AvatarGroup users={conversation.users} /> : <Avatar user={otherUser} />
+          }
+
           <div className='flex flex-col'>
             <div>
               {conversation.name || otherUser.name}
