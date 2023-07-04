@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useState } from 'react';
+import ImageModal from './ImageModal';
 
 
 const MessageBox = ({
@@ -17,7 +19,7 @@ const MessageBox = ({
 
   const session = useSession()
   const isOwn = session.data?.user?.email === data.sender.email
-
+  const [showImg, setShowImg] = useState(false)
   const seenList = (data.seen || [])
     .filter((user) => user.email !== data?.sender?.email)
     .map((user) => user.name)
@@ -31,7 +33,7 @@ const MessageBox = ({
     isOwn ? 'bg-sky-500 text-white' : 'bg-gray-100',
     data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3'
   )
-  
+
   return (
     <div className={container}>
       <div className={avatar} >
@@ -47,18 +49,26 @@ const MessageBox = ({
           </div>
         </div>
         <div className={message}>
+          <ImageModal isOpen={showImg}
+            src={data.image}
+            onClose={() => {
+              setShowImg(false)
+            }} />
           {data.image ? (
             <Image
               alt='Image'
               height={288}
               width={288}
               src={data.image}
+              onClick={() => {
+                setShowImg(true)
+              }}
               className='
-            object-cover
-            cursor-pointer
-            hover:scale-110
-            transition
-            translate'
+                object-cover
+                cursor-pointer
+                hover:scale-110
+                transition
+                translate'
             />
           ) : (
             <div>{data.body}</div>
