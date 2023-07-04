@@ -25,7 +25,7 @@ const UserList: React.FC<UserListProps> = ({
       <div className='px-5'>
         <div className='flex-col'>
           <div className='text-2xl font-bold py-4'>
-            Fessenger
+            Users
           </div>
         </div>
         { items.map(item=>(
