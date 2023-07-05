@@ -5,6 +5,7 @@ import MessageBox from './MessageBox';
 import useConversation from '@/app/hooks/useConversation';
 import axios from 'axios';
 import { pusherClient } from '@/app/libs/pusher';
+import { MsgChannel } from '@/app/libs/const';
 
 const Body = ({
   initialMessages
@@ -35,11 +36,22 @@ const Body = ({
       bottomRef.current?.scrollIntoView()
     }
 
-    pusherClient.bind('message:new', newMsgHandler)
-
+    const updateMsg = (newMsg: FullMessage) => {
+      setMsgs(msgs => {
+        return msgs.map(cur => {
+          if(cur.id === newMsg.id){
+            return newMsg
+          }
+          return cur
+        })
+      })
+    }
+    pusherClient.bind(MsgChannel.NEW, newMsgHandler)
+    pusherClient.bind(MsgChannel.UPDATE, updateMsg)
     return () => {
       pusherClient.unsubscribe(conversationId)
-      pusherClient.unbind('message:new', newMsgHandler)
+      pusherClient.unbind(MsgChannel.NEW, newMsgHandler)
+      pusherClient.unbind(MsgChannel.UPDATE, updateMsg)
     }
   }, [conversationId])
 

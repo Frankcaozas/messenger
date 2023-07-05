@@ -1,5 +1,7 @@
+import { MsgChannel } from "./../../../../types/index";
 import getCurrentUser from '@/app/actions/getCurrentUser'
 import prisma from '@/app/libs/prisma.db'
+import { pusherServer } from '@/app/libs/pusher'
 import { NextResponse } from 'next/server'
 
 export async function POST(
@@ -26,28 +28,42 @@ export async function POST(
         },
       },
     })
-    //没有msg直接返回conversation
-    const lastMsg = conversation?.messages[conversation.messages.length-1]
-    if(!lastMsg) return NextResponse.json(conversation)
-
-    const updatedMessage = await prisma.message.update({
+    //没有last msg直接返回conversation
+    const lastMsg = conversation?.messages[conversation.messages.length - 1]
+    if (!lastMsg) return NextResponse.json(conversation)
+    //update msg with seen
+    const updatedLastMessage = await prisma.message.update({
       where: {
-        id: lastMsg.id
+        id: lastMsg.id,
       },
       data: {
         seen: {
           connect: {
-            id: curUser.id
-          }
-        }
+            id: curUser.id,
+          },
+        },
       },
       include: {
         seen: true,
-        sender: true
-      }
+        sender: true,
+      },
     })
-    return NextResponse.json(updatedMessage)
 
+    await pusherServer.trigger(curUser.email, 'conversation:update', {
+      id: conversationId,
+      message: [updatedLastMessage],
+    })
+    //如果是自己的发的不用更新msg的seen
+    if (lastMsg.seenIds.includes(curUser.id))
+      return NextResponse.json(conversation)
+
+    await pusherServer.trigger(
+      conversationId,
+      MsgChannel.,
+      updatedLastMessage
+    )
+
+    return NextResponse.json(updatedLastMessage)
   } catch (e) {
     return new NextResponse('Internal Error', { status: 500 })
   }

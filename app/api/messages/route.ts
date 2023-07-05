@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             id: curUser.id,
           },
         },
-        seen: {
+        seen: { // 自己发的自己最先看到
           connect: {
             id: curUser.id,
           },
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     //update message in conversation body
     await pusherServer.trigger(conversationId, 'message:new', newMsg)
     //update conversation box in conversation list(last msg)
-    // await pusherServer.trigger(conversationId, 'conversation:update', updatedConversation)
+     pusherServer.trigger(conversationId, 'conversation:update', updatedConversation)
 
     return NextResponse.json(newMsg)
   } catch (e) {
