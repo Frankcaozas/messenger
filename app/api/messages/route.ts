@@ -1,6 +1,7 @@
 import getCurrentUser from '@/app/actions/getCurrentUser'
 import { NextResponse } from 'next/server'
 import prisma from '@/app/libs/prisma.db'
+import { pusherServer } from '@/app/libs/pusher'
 export async function POST(request: Request) {
   try {
     const curUser = await getCurrentUser()
@@ -54,6 +55,11 @@ export async function POST(request: Request) {
         }
       }
     })
+    //update message in conversation body
+    await pusherServer.trigger(conversationId, 'message:new', newMsg)
+    //update conversation box in conversation list(last msg)
+    // await pusherServer.trigger(conversationId, 'conversation:update', updatedConversation)
+
     return NextResponse.json(newMsg)
   } catch (e) {
     console.log(e, 'Message error')

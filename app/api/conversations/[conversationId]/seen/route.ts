@@ -26,6 +26,7 @@ export async function POST(
         },
       },
     })
+    //没有msg直接返回conversation
     const lastMsg = conversation?.messages[conversation.messages.length-1]
     if(!lastMsg) return NextResponse.json(conversation)
 
