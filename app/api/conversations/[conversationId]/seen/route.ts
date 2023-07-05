@@ -1,5 +1,6 @@
-import { MsgChannel } from "./../../../../types/index";
+
 import getCurrentUser from '@/app/actions/getCurrentUser'
+import { MsgChannel } from '@/app/libs/const'
 import prisma from '@/app/libs/prisma.db'
 import { pusherServer } from '@/app/libs/pusher'
 import { NextResponse } from 'next/server'
@@ -59,7 +60,7 @@ export async function POST(
 
     await pusherServer.trigger(
       conversationId,
-      MsgChannel.,
+      MsgChannel.UPDATE,
       updatedLastMessage
     )
 

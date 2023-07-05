@@ -1,5 +1,7 @@
 import getCurrentUser from '@/app/actions/getCurrentUser'
+import { ConversationChannel } from '@/app/libs/const'
 import prisma from '@/app/libs/prisma.db'
+import { pusherServer } from '@/app/libs/pusher'
 import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
@@ -33,6 +35,11 @@ export async function POST(request: Request) {
         include: {
           users: true,
         },
+      })
+
+      newGroupConversations.users.forEach(user=>{
+        if(user.email)
+          pusherServer.trigger(user.email, ConversationChannel.NEW, newGroupConversations)
       })
 
       return NextResponse.json(newGroupConversations)
