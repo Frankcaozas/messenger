@@ -1,6 +1,6 @@
 
 import getCurrentUser from '@/app/actions/getCurrentUser'
-import { MsgChannel } from '@/app/libs/const'
+import { ConversationChannel, MsgChannel } from '@/app/libs/const'
 import prisma from '@/app/libs/prisma.db'
 import { pusherServer } from '@/app/libs/pusher'
 import { NextResponse } from 'next/server'
@@ -50,9 +50,9 @@ export async function POST(
       },
     })
 
-    await pusherServer.trigger(curUser.email, 'conversation:update', {
+    await pusherServer.trigger(curUser.email, ConversationChannel.UPDATE, {
       id: conversationId,
-      message: [updatedLastMessage],
+      messages: [updatedLastMessage],
     })
     //如果是自己的发的不用更新msg的seen
     if (lastMsg.seenIds.includes(curUser.id))

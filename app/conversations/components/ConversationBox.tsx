@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 const ConversationBox = ({
   data,
@@ -34,7 +34,7 @@ const ConversationBox = ({
   }, [data.messages])
 
 
-
+  
   const hasSeen = useMemo(() => {
     if (!lastMsg) {
       return false;
@@ -61,20 +61,6 @@ const ConversationBox = ({
 
     return 'Start a conversation';
   }, [lastMsg]);
-
-  useEffect(()=>{
-    const handleConversationUpdate = (conversation: FullConversation) => {
-      data
-
-      
-    }
-    pusherClient.subscribe(data.id)
-    pusherClient.bind('conversation:update', handleConversationUpdate)
-
-    return () => {
-
-    }
-  }, [])
 
   return (
     <div className={clsx(`

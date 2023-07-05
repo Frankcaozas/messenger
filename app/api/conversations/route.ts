@@ -75,6 +75,11 @@ export async function POST(request: Request) {
       },
     })
 
+    newConversation.users.forEach(user=>{
+      if(user.email)
+        pusherServer.trigger(user.email, ConversationChannel.NEW, newConversation)
+    })
+
     return NextResponse.json(newConversation)
   } catch (e) {
     return new NextResponse('Internal Error', { status: 500 })

@@ -1,10 +1,13 @@
 'use client'
 import GroupChatModal from '@/app/components/modals/GroupChatModal';
 import useConversation from '@/app/hooks/useConversation';
+import { ConversationChannel } from '@/app/libs/const';
+import { pusherClient } from '@/app/libs/pusher';
 import { FullConversation } from '@/app/types';
 import { User } from '@prisma/client';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useMemo, useState } from 'react';
 import { MdOutlineGroupAdd } from 'react-icons/md';
 import ConversationBox from './ConversationBox';
 
@@ -19,6 +22,52 @@ const ConversationList = ({
   const [items, setItems] = useState<FullConversation[]>(initialItems)
   const { isOpen, conversationId } = useConversation()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const session = useSession()
+  const conversationChannel = useMemo(() => {
+    return session.data?.user?.email
+  }, [session.data?.user?.email])
+
+  useEffect(() => {
+    if (!conversationChannel) return
+
+    const newConversation = (c: FullConversation) => {
+      setItems(cur => {
+        if (cur.find(curConver => {
+          return curConver.id = c.id
+        }))
+          return cur
+        return [...cur, c]
+      })
+    }
+    const update = (newConversation: FullConversation) => {
+      setItems((cur) => cur.map(conversation => {
+        if (conversation.id === newConversation.id) {
+
+          return {
+            ...conversation,
+            messages: newConversation.messages
+          }
+        }
+        return conversation
+      }))
+    }
+    const deleteConversation = (conversation: FullConversation) => {
+      console.log(conversation)
+      setItems(cur => cur.filter(c => c.id !== conversation.id))
+    }
+
+
+    pusherClient.subscribe(conversationChannel)
+    pusherClient.bind(ConversationChannel.NEW, newConversation)
+    pusherClient.bind(ConversationChannel.UPDATE, update)
+    pusherClient.bind(ConversationChannel.DELETE, deleteConversation)
+    return () => {
+      pusherClient.unsubscribe(conversationChannel)
+      pusherClient.unbind(ConversationChannel.NEW, newConversation)
+      pusherClient.unbind(ConversationChannel.UPDATE, update)
+      pusherClient.unbind(ConversationChannel.DELETE, deleteConversation)
+    }
+  }, [conversationChannel])
 
   return (
     <>
@@ -44,7 +93,7 @@ const ConversationList = ({
               Conversations
             </div>
             <div
-              onClick={() => setIsModalOpen(true)} 
+              onClick={() => setIsModalOpen(true)}
               className="
                 rounded-full 
                 p-2 
