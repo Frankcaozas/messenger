@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { HiChevronLeft, HiEllipsisHorizontal } from 'react-icons/hi2';
 import ProfileDrawer from './ProfileDrawer';
+import activeListStore from '@/app/store/activeList';
 
 const Header = ({
   conversation
@@ -14,13 +15,15 @@ const Header = ({
   conversation: Conversation & { users: User[] }
 }) => {
   const otherUser = useOtherUser(conversation)
+  const { members } = activeListStore()
+  const isActive = members.indexOf(otherUser.email!) !== -1
   //状态本文，群聊显示几个成员， 聊天显示在线状态
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
       return `${conversation.users.length} 位成员`
     }
-    return '在线'
-  }, [conversation])
+    return isActive ? '在线' : '离线'
+  }, [conversation, isActive])
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>

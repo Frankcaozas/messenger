@@ -28,6 +28,7 @@ const GroupChatModal = ({
       errors
     },
     setValue,
+    getValues,
     watch
   } = useForm<FieldValues>({
     defaultValues: {
@@ -36,6 +37,7 @@ const GroupChatModal = ({
     }
   })
   const members = watch('members')
+  const [isvValid, setIsValid]  = useState(false)
   const submit: SubmitHandler<FieldValues> = (data) => {
     axios.post('/api/conversations', {
       ...data,
@@ -104,7 +106,7 @@ const GroupChatModal = ({
           </Button>
           <Button
             type='submit'
-            disabled={isLoading}
+            disabled={isLoading || !isvValid}
           >
             创建
           </Button>

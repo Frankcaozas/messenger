@@ -1,6 +1,7 @@
 import { Toaster } from "react-hot-toast"
 import AuthContext from "./context/AuthContext"
 import './globals.css'
+import ActiveStatus from "./components/ActiveStaus"
 
 
 
@@ -20,8 +21,10 @@ export default function RootLayout({
 
       <body className="">
         <AuthContext>
+          <ActiveStatus />
           <Toaster />
           {children}
+
         </AuthContext>
       </body>
     </html>
