@@ -16,7 +16,7 @@ const Header = ({
 }) => {
   const otherUser = useOtherUser(conversation)
   const { members } = activeListStore()
-  const isActive = members.indexOf(otherUser.email!) !== -1
+  const isActive = members.indexOf(otherUser?.email!) !== -1
   //状态本文，群聊显示几个成员， 聊天显示在线状态
   const statusText = useMemo(() => {
     if (conversation.isGroup) {

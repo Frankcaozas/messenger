@@ -34,7 +34,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   }, [otherUser.createdAt]);
 
   const title = useMemo(() => {
-    return data.name || otherUser.name;
+    return data.name || otherUser?.name;
   }, [data.name, otherUser.name]);
 
   const { members } = activeListStore();

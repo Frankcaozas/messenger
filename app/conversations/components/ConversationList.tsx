@@ -52,7 +52,7 @@ const ConversationList = ({
       }))
     }
     const deleteConversation = (conversation: FullConversation) => {
-      console.log(conversation)
+     
       setItems(cur => cur.filter(c => c.id !== conversation.id))
     }
 

@@ -37,9 +37,13 @@ export async function POST(request: Request) {
         },
       })
 
-      newGroupConversations.users.forEach(user=>{
-        if(user.email)
-          pusherServer.trigger(user.email, ConversationChannel.NEW, newGroupConversations)
+      newGroupConversations.users.forEach((user) => {
+        if (user.email)
+          pusherServer.trigger(
+            user.email,
+            ConversationChannel.NEW,
+            newGroupConversations
+          )
       })
 
       return NextResponse.json(newGroupConversations)
@@ -67,7 +71,7 @@ export async function POST(request: Request) {
     const newConversation = await prisma.conversation.create({
       data: {
         users: {
-          connect: [{ id: userId }, { id: currentUser.id }],
+          connect: [{ id: currentUser.id }, { id: userId }],
         },
       },
       include: {
@@ -75,9 +79,13 @@ export async function POST(request: Request) {
       },
     })
 
-    newConversation.users.forEach(user=>{
-      if(user.email)
-        pusherServer.trigger(user.email, ConversationChannel.NEW, newConversation)
+    newConversation.users.forEach((user) => {
+      if (user.email)
+        pusherServer.trigger(
+          user.email,
+          ConversationChannel.NEW,
+          newConversation
+        )
     })
 
     return NextResponse.json(newConversation)
