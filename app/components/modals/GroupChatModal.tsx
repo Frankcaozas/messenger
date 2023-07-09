@@ -35,8 +35,8 @@ const GroupChatModal = ({
       users: []
     }
   })
-  const name = watch('name')
-  const members = watch('members')
+  const name = watch('name') || ''
+  const members = watch('members') || []
   const submit: SubmitHandler<FieldValues> = (data) => {
     axios.post('/api/conversations', {
       ...data,
