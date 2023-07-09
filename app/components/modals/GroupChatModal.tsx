@@ -105,7 +105,7 @@ const GroupChatModal = ({
           </Button>
           <Button
             type='submit'
-            disabled={isLoading || (name.length === 0) || members.length === 0}
+            disabled={isLoading || (name.length === 0) || members.length <= 2}
           >
             创建
           </Button>
