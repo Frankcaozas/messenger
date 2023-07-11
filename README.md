@@ -13,7 +13,6 @@ Key Features:
 - 响应式
 - 使用 NextAuth 进行凭证身份验证
 - 谷歌身份验证集成
-- Github身份验证集成
 - 使用Cloudinary CDN上传文件和图像
 - 使用react-hook-form进行客户端表单验证和处理
 - 使用react-toast处理服务器错误
